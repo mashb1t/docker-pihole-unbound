@@ -7,7 +7,11 @@ volumes:
 services:
   pihole:
     container_name: pihole
-    image: cbcrowe/pihole-unbound:latest
+#    image: cbcrowe/pihole-unbound:latest
+    build:
+      context: pihole-unbound
+      args:
+        PIHOLE_VERSION: 2023.02.0
     hostname: ${HOSTNAME}
     domainname: ${DOMAIN_NAME}
     ports:
@@ -32,4 +36,5 @@ services:
     volumes:
       - etc_pihole-unbound:/etc/pihole:rw
       - etc_pihole_dnsmasq-unbound:/etc/dnsmasq.d:rw
+      - ./resolv.conf:/etc/resolv.conf.d:rw
     restart: unless-stopped
